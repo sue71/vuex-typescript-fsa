@@ -1,0 +1,66 @@
+version: 2.1
+
+# Shared reference for a environment
+executors:
+  default:
+    docker:
+      - image: circleci/node:10.9
+    environment:
+      # CODECOV_TOKEN: xxx // setup via circleci
+    working_directory: ~/repo
+
+jobs:
+  # Job for build
+  build:
+    executor: default
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - npm-cache-{{ arch }}-{{ .Branch }}-{{ checksum "package-lock.json" }}
+            - npm-cache-{{ arch }}-{{ .Branch }}
+            - npm-cache
+      - run:
+          name: install npm dependencies
+          command: npm install
+      - run:
+          name: build
+          command: npm run build
+      - save_cache:
+          key: npm-cache-{{ arch }}-{{ .Branch }}-{{ checksum "package-lock.json" }}
+          paths:
+            - node_modules
+      - persist_to_workspace:
+          root: ~/repo
+          paths:
+            - .
+
+  # Job for test
+  test:
+    executor: default
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/repo
+      - run:
+          name: unit test
+          command: npm t
+      - run:
+          name: send coverage
+          command: npm run codecov
+
+workflows:
+  per_commit:
+    jobs:
+      - build:
+          name: build
+          filters:
+            branches:
+              only: /.*/
+      - test:
+          name: test
+          requires:
+            - build
+          filters:
+            branches:
+              only: /.*/

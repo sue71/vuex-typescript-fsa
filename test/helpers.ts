@@ -1,10 +1,5 @@
 import { actionCreator } from "../src/action-creator";
-import {
-  action,
-  combineAction,
-  combineMutation,
-  mutation
-} from "../src/helpers";
+import { action, combineAction, combineMutation, mutation } from "../src";
 import Vue from "vue";
 import Vuex, { Store } from "vuex";
 import { ActionObject } from "../src/helpers";

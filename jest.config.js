@@ -9,5 +9,5 @@ module.exports = {
   },
   testMatch: ["**/test/**/*.ts"],
   collectCoverage: true,
-  collectCoverageFrom: ["!src/**/*.d.ts"]
+  collectCoverageFrom: ["src/**/*.ts", "!src/**/*.d.ts"]
 };

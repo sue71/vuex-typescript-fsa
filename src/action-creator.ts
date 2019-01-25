@@ -3,12 +3,19 @@ export type FluxType = string;
 /**
  * Action conformed to FSA
  */
-export interface FSA<Payload = void> {
+export type FSA<Payload = void> = {
   readonly type: FluxType;
   payload: Payload;
   error?: boolean;
   meta?: any;
 }
+
+export type Options = {
+  namespace?: string;
+  error?: boolean;
+  meta?: any;
+}
+
 
 /**
  * Factory function for Action
@@ -18,18 +25,19 @@ export interface FSA<Payload = void> {
  * export const Login = actionCreator<string[]>("LOGIN");
  * Login(["foo", "bar"])
  */
-export interface ActionCreator<Payload = void> {
+export type ActionCreator<Payload = void> = {
   type: FluxType;
-  (payload: Payload, options?: ActionCreator.Options): FSA<Payload>;
-}
-
-export namespace ActionCreator {
-  export interface Options {
-    namespace?: string;
-    error?: boolean;
-    meta?: any;
-  }
-}
+  (payload: Payload, options?: Options): FSA<Payload>;
+} & (Payload extends void
+  ? {
+  /**
+   * Creates action with given payload and metadata.
+   *
+   * @param payload Action payload.
+   * @param meta Action metadata. Merged with `commonMeta` of Action Creator.
+   */
+  (payload?: Payload, options?: Options): FSA<Payload>;
+} : {})
 
 /**
  * Factory function for create ActionCreator
@@ -37,7 +45,7 @@ export namespace ActionCreator {
  */
 export function actionCreator<Payload>(type: FluxType): ActionCreator<Payload> {
   return Object.assign(
-    (payload: Payload, options: ActionCreator.Options): FSA<Payload> => {
+    (payload: Payload, options: Options): FSA<Payload> => {
       return {
         type:
           options && options.namespace ? `${options.namespace}/${type}` : type,

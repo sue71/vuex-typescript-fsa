@@ -43,7 +43,7 @@ export type ActionCreator<Payload = void> = {
  * Factory function for create ActionCreator
  * @param type
  */
-export function actionCreator<Payload>(type: FluxType): ActionCreator<Payload> {
+export function actionCreator<Payload = void>(type: FluxType): ActionCreator<Payload> {
   return Object.assign(
     (payload: Payload, options: Options): FSA<Payload> => {
       return {

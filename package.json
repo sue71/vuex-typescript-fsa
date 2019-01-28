@@ -1,21 +1,21 @@
 {
   "name": "vuex-typescript-fsa",
-  "version": "0.1.1",
+  "version": "0.9.0",
   "description": "The helper which makes vuex more type-safety",
   "main": "lib/index.js",
   "files": [
     "lib"
   ],
   "dependencies": {
-    "vuex": "^3.0.1"
+    "vuex": "^3.1.0"
   },
   "devDependencies": {
     "@types/jest": "^23.3.10",
     "codecov": "^3.1.0",
     "jest": "^23.6.0",
     "ts-jest": "^23.10.5",
-    "typescript": "^3.2.2",
-    "vue": "^2.5.21"
+    "typescript": "^3.2.4",
+    "vue": "^2.5.22"
   },
   "scripts": {
     "build": "tsc",
@@ -26,6 +26,6 @@
     "vuex",
     "TypeScript"
   ],
-  "author": "sue71",
+  "author": "k-okina",
   "license": "MIT"
 }

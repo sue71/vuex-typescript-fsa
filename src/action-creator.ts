@@ -59,3 +59,23 @@ export function actionCreator<Payload = void>(type: FluxType): ActionCreator<Pay
     }
   ) as ActionCreator<Payload>;
 }
+
+export function actionCreatorFactory(prefix?: string) {
+  return <Payload = void>(type: FluxType): ActionCreator<Payload> => {
+    const base = prefix ? `${prefix}/${type}` : type
+    return Object.assign(
+      (payload: Payload, options: Options): FSA<Payload> => {
+        return {
+          type:
+            options && options.namespace ? `${options.namespace}/${base}` : base,
+          payload,
+          error: options && options.error,
+          meta: options && options.meta
+        };
+      },
+      {
+        type: base,
+      }
+    ) as ActionCreator<Payload>;
+  }
+}

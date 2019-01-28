@@ -99,25 +99,6 @@ describe("helpers", () => {
       store.dispatch(Add(1));
     });
 
-    test("call void type payload mutation", () => {
-      const CountUp = actionCreator<void>("COUNT_UP");
-
-      const store = new Store<Counter>({
-        state: {
-          value: 0
-        },
-        mutations: combineMutation(
-          mutation(CountUp, function(state) {
-            state.value++;
-          })
-        )
-      });
-      store.commit(CountUp());
-      expect(store.state.value).toEqual(1);
-      store.commit(CountUp());
-      expect(store.state.value).toEqual(2);
-    });
-
     test("update state in combineMutation", () => {
       const store = new Store<Counter>({
         state: {

@@ -1,5 +1,5 @@
 {
-  "name": "vuex-typescript-fsa",
+  "name": "typescript-fsa-vuex",
   "version": "0.9.0",
   "description": "The helper which makes vuex more type-safety",
   "main": "lib/index.js",

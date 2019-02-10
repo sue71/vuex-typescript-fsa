@@ -46,6 +46,9 @@ jobs:
           name: unit test
           command: npm t
       - run:
+          name: test types
+          command: npm run test:types
+      - run:
           name: send coverage
           command: npm run codecov
 

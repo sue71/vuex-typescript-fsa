@@ -7,7 +7,7 @@ module.exports = {
   transform: {
     ".*\\.ts$": "<rootDir>/node_modules/ts-jest"
   },
-  testMatch: ["**/test/**/*.ts"],
+  testMatch: ["**/test/**/*.ts", "!**/test/types/*.ts"],
   collectCoverage: true,
   collectCoverageFrom: ["src/**/*.ts", "!src/**/*.d.ts"]
 };

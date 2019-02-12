@@ -1,5 +1,5 @@
-import { actionCreator } from '../../src/action-creator';
-import { action } from '../../src/helpers';
+import { actionCreator } from "../../src/action-creator";
+import { action } from "../../src/helpers";
 
 // test: actionCreator
 const WithPayload = actionCreator<string[]>("payload");
@@ -9,13 +9,13 @@ WithPayload(["payload"]);
 WithPayload(["payload"], {
   error: false,
   meta: "",
-  namespace: "",
+  namespace: ""
 });
-NoPayload();
-NoPayload({
+NoPayload(void 0);
+NoPayload(void 0, {
   error: false,
   meta: "",
-  namespace: "",
+  namespace: ""
 });
 
 action(WithPayload, (_, action) => {

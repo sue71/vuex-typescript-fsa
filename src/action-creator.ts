@@ -18,13 +18,10 @@ export interface FSA<Payload = void> {
  * export const Login = actionCreator<string[]>("LOGIN");
  * Login(["foo", "bar"])
  */
-export type ActionCreator<Payload = void> = {
+export interface ActionCreator<Payload = void> {
   type: FluxType;
-} & (
-    Payload extends void ?
-    { (options?: ActionCreator.Options): FSA<Payload> } :
-    { (payload: Payload, options?: ActionCreator.Options): FSA<Payload> }
-  )
+  (payload: Payload, options?: ActionCreator.Options): FSA<Payload>;
+}
 
 export namespace ActionCreator {
   export interface Options {

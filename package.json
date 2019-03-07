@@ -1,6 +1,6 @@
 {
   "name": "vuex-typescript-fsa",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "The helper which makes vuex more type-safety",
   "main": "lib/index.js",
   "files": [

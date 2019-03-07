@@ -35,12 +35,26 @@ export namespace ActionCreator {
  * Factory function for create ActionCreator
  * @param type
  */
-export function actionCreator<Payload = void>(type: FluxType): ActionCreator<Payload> {
-  return Object.assign(
+export function actionCreatorFactory(
+  prefix: string | undefined
+): typeof actionCreator {
+  return (type: FluxType) => actionCreator(type, prefix);
+}
+
+/**
+ * Factory function for create ActionCreator
+ * @param type
+ */
+export function actionCreator<Payload = void>(
+  type: FluxType,
+  prefix: string | undefined = undefined
+): ActionCreator<Payload> {
+  return (Object.assign(
     (payload: Payload, options: ActionCreator.Options): FSA<Payload> => {
+      const namespace =
+        options && options.namespace ? options.namespace : prefix;
       return {
-        type:
-          options && options.namespace ? `${options.namespace}/${type}` : type,
+        type: namespace ? `${namespace}/${type}` : type,
         payload,
         error: options && options.error,
         meta: options && options.meta
@@ -49,5 +63,5 @@ export function actionCreator<Payload = void>(type: FluxType): ActionCreator<Pay
     {
       type
     }
-  ) as unknown as ActionCreator<Payload>;
+  ) as unknown) as ActionCreator<Payload>;
 }

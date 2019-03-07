@@ -1,2 +1,2 @@
 export { combineAction, action, combineMutation, mutation } from "./helpers";
-export { actionCreator } from "./action-creator";
+export { actionCreator, actionCreatorFactory } from "./action-creator";

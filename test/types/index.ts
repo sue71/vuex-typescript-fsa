@@ -1,4 +1,4 @@
-import { actionCreator } from "../../src/action-creator";
+import { actionCreator, actionCreatorFactory } from "../../src/action-creator";
 import { action } from "../../src/helpers";
 
 // test: actionCreator
@@ -16,6 +16,17 @@ NoPayload(void 0, {
   error: false,
   meta: "",
   namespace: ""
+});
+
+// test: actionCreatorFactory
+const factory = actionCreatorFactory("namespace");
+const Namespaced = factory<string[]>("payload");
+
+Namespaced(["payload"]);
+
+// test: action
+action(Namespaced, (_, action) => {
+  action.payload.length;
 });
 
 action(WithPayload, (_, action) => {

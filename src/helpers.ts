@@ -19,10 +19,10 @@ export type ActionHandler<S, R, P> = (
 /**
  * Enhanced type definition for Vuex ActionObject
  */
-export type ActionObject<S, R, P> = {
+export interface ActionObject<S, R, P> {
   root?: boolean;
   handler: ActionHandler<S, R, P>;
-};
+}
 
 /**
  * Enhanced type definition for Vuex Action

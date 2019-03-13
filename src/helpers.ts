@@ -1,38 +1,7 @@
-import { ActionContext, ActionTree, MutationTree, Store } from "vuex";
-import { FSA, ActionCreator } from "./action-creator";
-
-/**
- * Definition for annotating type parameter
- */
-export type PayloadType<T> = T extends ActionCreator<infer R> ? R : never;
-export type ReturnType<T> = T extends (...args: any[]) => infer R ? R : never;
-
-/**
- * Enhanced type definition for Vuex ActionHandler
- */
-export type ActionHandler<S, R, P> = (
-  this: Store<R>,
-  injectee: ActionContext<S, R>,
-  payload: P
-) => any;
-
-/**
- * Enhanced type definition for Vuex ActionObject
- */
-export interface ActionObject<S, R, P> {
-  root?: boolean;
-  handler: ActionHandler<S, R, P>;
-}
-
-/**
- * Enhanced type definition for Vuex Action
- */
-export type Action<S, R, P> = ActionHandler<S, R, P> | ActionObject<S, R, P>;
-
-/**
- * Enhanced type definition for Vuex Mutation
- */
-export type Mutation<S, P> = (this: Store<S>, state: S, payload: P) => void;
+import { ActionTree, MutationTree } from "vuex";
+import { ActionCreator, PayloadType } from "./action-creator";
+import { Action, Mutation } from "./types/vuex";
+import { FSA } from "./types/fsa";
 
 /**
  * Create action handler with type annotation

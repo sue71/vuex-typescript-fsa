@@ -45,4 +45,15 @@ describe("#actionCreator", () => {
       meta: "meta"
     });
   });
+  test("make namespaced fsa", () => {
+    const createFSA = actionCreator<string>("TYPE", {
+      namespace: "namespace"
+    });
+    expect(createFSA.namespaced("test")).toEqual({
+      type: "namespace/TYPE",
+      payload: "test",
+      error: undefined,
+      meta: undefined
+    });
+  });
 });

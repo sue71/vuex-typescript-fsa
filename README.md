@@ -3,6 +3,8 @@ vuex-typescript-fsa
 
 The helper function for inferring a combination of action/mutation and handler 
 
+**This project is under development. Some features have bugs and some APIs might be changed near future.**
+
 ## Installation
 
 ```

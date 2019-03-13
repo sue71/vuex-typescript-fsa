@@ -19,6 +19,7 @@ export interface ActionCreator<Payload = void> {
   type: FluxType;
   namespace: string;
   (payload: Payload, options?: FSAOptions): FSA<Payload>;
+  namespaced(payload: Payload, options?: FSAOptions): FSA<Payload>;
 }
 
 export interface FSAOptions {
@@ -41,21 +42,21 @@ export function actionCreator<Payload = void>(
   creatorOptions: ActionCreatorOptions = {}
 ): ActionCreator<Payload> {
   // make full type
-  const fullType = makeType(type, creatorOptions && creatorOptions.prefix);
-  return (Object.assign(
-    (payload: Payload, options: FSAOptions = {}): FSA<Payload> => {
-      return {
-        type: options.namespace ? makeType(type, options.namespace) : fullType,
-        payload,
-        error: options.error,
-        meta: options.meta
-      };
-    },
-    {
-      type: fullType,
-      namespace: creatorOptions.namespace
-    }
-  ) as unknown) as ActionCreator<Payload>;
+  const fullType = makeType(type, creatorOptions.prefix);
+  const create = (payload: Payload, options: FSAOptions = {}): FSA<Payload> => {
+    return {
+      type: options.namespace ? makeType(type, options.namespace) : fullType,
+      payload,
+      error: options.error,
+      meta: options.meta
+    };
+  };
+  return Object.assign(create, {
+    namespaced: (payload: Payload, options: FSAOptions = {}) =>
+      create(payload, { ...options, namespace: creatorOptions.namespace }),
+    type: fullType,
+    namespace: creatorOptions.namespace
+  }) as ActionCreator<Payload>;
 }
 
 /**

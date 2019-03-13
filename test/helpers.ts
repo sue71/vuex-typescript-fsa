@@ -7,7 +7,7 @@ import {
 } from "../src";
 import Vue from "vue";
 import Vuex, { Store } from "vuex";
-import { ActionObject } from "../src/helpers";
+import { ActionObject } from "../src/types/vuex";
 
 describe("helpers", () => {
   const Action = actionCreator<string[]>("ACTION");

@@ -1,5 +1,11 @@
-import { actionCreator, actionCreatorFactory } from "../../src/action-creator";
+import Vue from "vue";
+import { actionCreatorFactory, actionCreator } from "../../src/action-creator";
 import { action } from "../../src/helpers";
+import {
+  mapActions,
+  mapMutations,
+  createNamespacedHelpers
+} from "../../src/mapper";
 
 // test: actionCreator
 const WithPayload = actionCreator<string[]>("payload");
@@ -19,8 +25,11 @@ NoPayload(void 0, {
 });
 
 // test: actionCreatorFactory
-const factory = actionCreatorFactory("namespace");
-const Namespaced = factory<string[]>("payload");
+const namespacedActionCreator = actionCreatorFactory({
+  namespace: "ns",
+  prefix: "prefix"
+});
+const Namespaced = namespacedActionCreator<string[]>("payload");
 
 Namespaced(["payload"]);
 
@@ -35,4 +44,19 @@ action(WithPayload, (_, action) => {
 
 action(NoPayload, (_, action) => {
   action.payload;
+});
+
+const namespacedHelper = createNamespacedHelpers("ns");
+
+// test: mapper
+Vue.extend({
+  methods: {
+    ...mapActions({ action: WithPayload }),
+    ...mapMutations({ mutation: WithPayload }),
+    ...namespacedHelper.mapActions({ namespacedAction: WithPayload }),
+    callAction() {
+      this.action(["test"]);
+      this.mutation(["test"]);
+    }
+  }
 });

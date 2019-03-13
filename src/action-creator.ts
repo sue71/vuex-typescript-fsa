@@ -1,14 +1,11 @@
-export type FluxType = string;
+import { FSA, FluxType } from "./types/fsa";
+import { makeType } from "./utils";
 
 /**
- * Action conformed to FSA
+ * Definition for annotating type parameter
  */
-export interface FSA<Payload = void> {
-  readonly type: FluxType;
-  payload: Payload;
-  error?: boolean;
-  meta?: any;
-}
+export type PayloadType<T> = T extends ActionCreator<infer R> ? R : never;
+export type ReturnType<T> = T extends (...args: any[]) => infer R ? R : never;
 
 /**
  * Factory function for Action
@@ -20,15 +17,19 @@ export interface FSA<Payload = void> {
  */
 export interface ActionCreator<Payload = void> {
   type: FluxType;
-  (payload: Payload, options?: ActionCreator.Options): FSA<Payload>;
+  namespace: string;
+  (payload: Payload, options?: FSAOptions): FSA<Payload>;
 }
 
-export namespace ActionCreator {
-  export interface Options {
-    namespace?: string;
-    error?: boolean;
-    meta?: any;
-  }
+export interface FSAOptions {
+  namespace?: string;
+  error?: boolean;
+  meta?: any;
+}
+
+export interface ActionCreatorOptions {
+  prefix?: string;
+  namespace?: string;
 }
 
 /**
@@ -37,21 +38,22 @@ export namespace ActionCreator {
  */
 export function actionCreator<Payload = void>(
   type: FluxType,
-  prefix?: string
+  creatorOptions: ActionCreatorOptions = {}
 ): ActionCreator<Payload> {
+  // make full type
+  const fullType = makeType(type, creatorOptions && creatorOptions.prefix);
   return (Object.assign(
-    (payload: Payload, options: ActionCreator.Options): FSA<Payload> => {
-      const namespace =
-        options && options.namespace ? options.namespace : prefix;
+    (payload: Payload, options: FSAOptions = {}): FSA<Payload> => {
       return {
-        type: namespace ? `${namespace}/${type}` : type,
+        type: options.namespace ? makeType(type, options.namespace) : fullType,
         payload,
-        error: options && options.error,
-        meta: options && options.meta
+        error: options.error,
+        meta: options.meta
       };
     },
     {
-      type
+      type: fullType,
+      namespace: creatorOptions.namespace
     }
   ) as unknown) as ActionCreator<Payload>;
 }
@@ -60,6 +62,11 @@ export function actionCreator<Payload = void>(
  * Factory function for create ActionCreator
  * @param type
  */
-export function actionCreatorFactory(prefix?: string): typeof actionCreator {
-  return (type: FluxType) => actionCreator(type, prefix);
+export function actionCreatorFactory(
+  options: ActionCreatorOptions | string
+): typeof actionCreator {
+  if (typeof options === "string") {
+    return (type: FluxType) => actionCreator(type, { namespace: options });
+  }
+  return (type: FluxType) => actionCreator(type, options);
 }

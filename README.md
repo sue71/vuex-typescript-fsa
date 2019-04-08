@@ -17,7 +17,7 @@ npm install vuex-typescript-fsa
 
 ## Usage 
 
-```
+```js
 const Increment = actionCreator<number>("Increment");
 
 const store = new Store<{ count: number }>({

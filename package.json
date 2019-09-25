@@ -21,7 +21,7 @@
     "jest": "24.8.0",
     "prettier": "1.16.4",
     "ts-jest": "24.1.0",
-    "typescript": "3.5.3",
+    "typescript": "3.6.3",
     "vue": "2.6.10"
   },
   "scripts": {

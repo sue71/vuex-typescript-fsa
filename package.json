@@ -10,7 +10,7 @@
     "vuex": "^3.0.1"
   },
   "devDependencies": {
-    "@types/jest": "24.0.15",
+    "@types/jest": "24.0.18",
     "@typescript-eslint/eslint-plugin": "2.3.1",
     "@typescript-eslint/parser": "2.3.1",
     "codecov": "3.6.1",

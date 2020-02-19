@@ -13,7 +13,7 @@
     "@types/jest": "24.0.18",
     "@typescript-eslint/eslint-plugin": "2.14.0",
     "@typescript-eslint/parser": "2.14.0",
-    "codecov": "3.6.1",
+    "codecov": "3.6.5",
     "js-yaml": "3.13.1",
     "eslint": "6.5.1",
     "eslint-config-prettier": "6.9.0",

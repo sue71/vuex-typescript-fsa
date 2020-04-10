@@ -4,7 +4,7 @@ version: 2.1
 executors:
   default:
     docker:
-      - image: circleci/node:10.19
+      - image: circleci/node:10.20
     environment:
       # CODECOV_TOKEN: xxx // setup via circleci
     working_directory: ~/repo
